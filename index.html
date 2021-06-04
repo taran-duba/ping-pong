@@ -24,8 +24,28 @@
             <br><br>
             <p class="btn btn-warning" id="status"></p>
             <br><br>
+            <button class="btn btn-danger" id="restart" onclick="restart();">Restart Game</button>
+            <br><br>
             <div id="canvas"></div>
+            <div id="instructions" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal">&times;</button>
+                            <h4>Instructions</h4>
+                        </div>
+                        <div class="modal-body">
+                            <ol class="instructions list">
+                                <li>Move your mouse up and down to control the paddle on the left.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                Developed by: Taran Duba
+            </div>
         </center>
-        <script src="main.js"></script>
+        <script src="script.js"></script>
     </body>
 </html>
