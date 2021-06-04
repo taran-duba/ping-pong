@@ -1,9 +1,9 @@
-var paddle2 = 10, paddle1=10;
+var paddle2 = 10, paddle1 = 10;
 
 var paddle1X = 10, paddle1Height = 110;
 var paddle2Y = 685, paddle2Height = 70;
 
-var score1 = 0, score2 =0;
+var score1 = 0, score2 = 0;
 var paddle1Y;
 
 var playerscore = 0;
@@ -19,8 +19,16 @@ var ball = {
 
 function setup() {
     canvas = createCanvas(700, 600);
+    canvas.parent("canvas");
+    video = createCapture(VIDEO);
+    video.size(700, 600);
+    video.hide();
+    poseNet = ml5.poseNet(video, modelLoaded);
 }
-
+function modelLoaded() {
+    var message = "Model Loaded!";
+    console.log(message);
+}
 
 function draw() {
     background(0); 
@@ -30,7 +38,7 @@ function draw() {
     fill("black");
     stroke("black");
     rect(0, 0, 20, 700);
- 
+    image(video, 0, 0, 700, 600);
     //funtion paddleInCanvas call 
     paddleInCanvas();
  

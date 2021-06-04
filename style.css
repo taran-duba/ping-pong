@@ -25,3 +25,9 @@ li {
     bottom: 0;
     position: sticky;
 }
+canvas {
+    margin: 20px;
+    border: 5px solid white;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px grey;
+}
