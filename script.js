@@ -16,7 +16,15 @@ var ball = {
     dx: 3,
     dy: 3
 }
-
+rightWristX = 0;
+rightWristY = 0;
+rightWristScore = 0;
+gameStatus = "";
+function startGame() {
+    gameStatus = "start";
+    console.log(gameStatus);
+    document.getElementById("status").innerHTML = "Loading Game...";
+}
 function setup() {
     canvas = createCanvas(700, 600);
     canvas.parent("canvas");
@@ -24,6 +32,15 @@ function setup() {
     video.size(700, 600);
     video.hide();
     poseNet = ml5.poseNet(video, modelLoaded);
+    poseNet.on('pose', gotPoses);
+}
+function gotPoses(results) {
+    if(results.length > 0) {
+        console.log(results);
+        rightWristX = results[0].pose.rightWrist.x;
+        rightWristY = results[0].pose.rightWrist.y;
+        rightWristScore = results[0].pose.score;
+    }
 }
 function modelLoaded() {
     var message = "Model Loaded!";
@@ -31,42 +48,49 @@ function modelLoaded() {
 }
 
 function draw() {
-    background(0); 
-    fill("black");
-    stroke("black");
-    rect(680, 0, 20, 700);
-    fill("black");
-    stroke("black");
-    rect(0, 0, 20, 700);
-    image(video, 0, 0, 700, 600);
-    //funtion paddleInCanvas call 
-    paddleInCanvas();
+    if (gameStatus == "start") {
+        background(0); 
+        fill("black");
+        stroke("black");
+        rect(680, 0, 20, 700);
+        fill("black");
+        stroke("black");
+        rect(0, 0, 20, 700);
+        image(video, 0, 0, 700, 600);
+        if(rightWristScore > 0.2) {
+            fill(255, 0, 0);
+            stroke(255, 0, 0);
+            circle(rightWristX, rightWristY, 20);
+        }
+        //function paddleInCanvas call 
+        paddleInCanvas();
  
-    //left paddle
-    fill(250,0,0);
-    stroke(0,0,250);
-    strokeWeight(0.5);
-    paddle1Y = mouseY; 
-    rect(paddle1X, paddle1Y, paddle1, paddle1Height, 100);
+        //left paddle
+        fill(250, 0, 0);
+        stroke(0, 0, 250);
+        strokeWeight(0.5);
+        paddle1Y = mouseY; 
+        rect(paddle1X, paddle1Y, paddle1, paddle1Height, 100);
    
    
-    //pc computer paddle
-    fill("#FFA500");
-    stroke("#FFA500");
-    var paddle2y = ball.y - paddle2Height/2;
-    rect(paddle2Y, paddle2y, paddle2, paddle2Height, 100);
+        //PC/Computer paddle
+        fill("#FFA500");
+        stroke("#FFA500");
+        var paddle2y = ball.y - paddle2Height/2;
+        rect(paddle2Y, paddle2y, paddle2, paddle2Height, 100);
     
-    //function midline call
-    midline();
+        //function midline call
+        midline();
     
-    //funtion drawScore call 
-    drawScore();
+        //funtion drawScore call 
+        drawScore();
    
-    //function models call  
-    models();
+        //function models call  
+        models();
    
-    //function move call which in very important
-    move();
+        //function move call which in very important
+        move();
+    }
 }
 
 
